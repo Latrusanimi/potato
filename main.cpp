@@ -15,8 +15,6 @@ void FuehreZugAus(Spieler& aktiverSpieler, Spieler& gegner);
 void FuehreNormalenZugAus(Spieler& aktiverSpieler, Spieler& gegner);
 void ZieheLebenAb(Spieler& spieler, int schaden);
 void GibSpielstandAus(Spieler& spieler1, Spieler& spieler2);
-bool IstSpielBeendet(Spieler& spieler1, Spieler& spieler2);
-void GibGewinnerAus(Spieler& spieler1, Spieler& spieler2);
 
 
 
@@ -52,12 +50,12 @@ int main() {
     cout << endl;
 
     //Spiel laeuft, bis ein Spieler keine Leben mehr hat
-    while (!IstSpielBeendet(spieler1, spieler2)) {
+    while (!(spieler1.getLeben() <= 0 || spieler2.getLeben() <= 0)) {
         //Zug Spieler 1
         FuehreZugAus(spieler1, spieler2);
 
         //Pruefen, ob Spiel beendet ist
-        if (IstSpielBeendet(spieler1, spieler2)) {
+        if (spieler1.getLeben() <= 0 || spieler2.getLeben() <= 0) {
             break;
         }
 
@@ -72,7 +70,15 @@ int main() {
     }
 
     //Gewinner ausgeben
-    GibGewinnerAus(spieler1, spieler2);
+    cout << endl;
+    cout << "Spiel beendet." << endl;
+
+    if (spieler1.getLeben() > 0) {
+        cout << spieler1.getName() << " hat gewonnen." << endl;
+    }
+    else {
+        cout << spieler2.getName() << " hat gewonnen." << endl;
+    }
 
     return 0;
 }
@@ -191,28 +197,4 @@ void GibSpielstandAus(Spieler& spieler1, Spieler& spieler2) {
     cout << spieler1.getName() << ": " << spieler1.getLeben() << " Leben" << endl;
     cout << spieler2.getName() << ": " << spieler2.getLeben() << " Leben" << endl;
     cout << endl;
-}
-
-
-//Pruefen, ob das Spiel beendet ist
-bool IstSpielBeendet(Spieler& spieler1, Spieler& spieler2) {
-    if (spieler1.getLeben() <= 0 || spieler2.getLeben() <= 0) {
-        return true;
-    }
-
-    return false;
-}
-
-
-//Gewinner ausgeben
-void GibGewinnerAus(Spieler& spieler1, Spieler& spieler2) {
-    cout << endl;
-    cout << "Spiel beendet." << endl;
-
-    if (spieler1.getLeben() > 0) {
-        cout << spieler1.getName() << " hat gewonnen." << endl;
-    }
-    else {
-        cout << spieler2.getName() << " hat gewonnen." << endl;
-    }
 }
